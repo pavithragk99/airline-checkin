@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "aircraft_types",
+  "info": {
+    "singularName": "aircraft-type",
+    "pluralName": "aircraft-types",
+    "displayName": "Aircraft Type"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "rows": {
+      "type": "integer",
+      "required": true
+    },
+    "seatMap": {
+      "type": "json",
+      "required": true
+    },
+    "tiers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::seat-tier.seat-tier",
+      "mappedBy": "aircraftType"
+    }
+  }
+}

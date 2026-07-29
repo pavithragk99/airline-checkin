@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "seat_tiers",
+  "info": {
+    "singularName": "seat-tier",
+    "pluralName": "seat-tiers",
+    "displayName": "Seat Tier"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "minAge": {
+      "type": "integer",
+      "required": false
+    },
+    "eliteFree": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "aircraftType": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::aircraft-type.aircraft-type",
+      "inverseName": "tiers"
+    }
+  }
+}

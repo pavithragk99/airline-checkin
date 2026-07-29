@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "flights",
+  "info": {
+    "singularName": "flight",
+    "pluralName": "flights",
+    "displayName": "Flight"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "flightNumber": {
+      "type": "string",
+      "required": true
+    },
+    "origin": {
+      "type": "string",
+      "required": true
+    },
+    "destination": {
+      "type": "string",
+      "required": true
+    },
+    "departureTime": {
+      "type": "datetime",
+      "required": true
+    },
+    "checkinOpensHoursBefore": {
+      "type": "integer",
+      "required": true,
+      "default": 24
+    },
+    "aircraftType": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::aircraft-type.aircraft-type"
+    }
+  }
+}
