@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "checkin_steps",
+  "info": {
+    "singularName": "checkin-step",
+    "pluralName": "checkin-steps",
+    "displayName": "Checkin Step"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "stepKey": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "order": {
+      "type": "integer",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "richtext",
+      "required": true
+    },
+    "destinationCountry": {
+      "type": "string",
+      "required": false
+    },
+    "requiresVisa": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  }
+}

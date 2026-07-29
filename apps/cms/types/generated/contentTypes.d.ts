@@ -443,6 +443,150 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAircraftTypeAircraftType
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'aircraft_types';
+  info: {
+    displayName: 'Aircraft Type';
+    pluralName: 'aircraft-types';
+    singularName: 'aircraft-type';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::aircraft-type.aircraft-type'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    rows: Schema.Attribute.Integer & Schema.Attribute.Required;
+    seatMap: Schema.Attribute.JSON & Schema.Attribute.Required;
+    tiers: Schema.Attribute.Relation<'oneToMany', 'api::seat-tier.seat-tier'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCheckinStepCheckinStep extends Struct.CollectionTypeSchema {
+  collectionName: 'checkin_steps';
+  info: {
+    displayName: 'Checkin Step';
+    pluralName: 'checkin-steps';
+    singularName: 'checkin-step';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    body: Schema.Attribute.RichText & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    destinationCountry: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::checkin-step.checkin-step'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    requiresVisa: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    stepKey: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiFlightFlight extends Struct.CollectionTypeSchema {
+  collectionName: 'flights';
+  info: {
+    displayName: 'Flight';
+    pluralName: 'flights';
+    singularName: 'flight';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    aircraftType: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::aircraft-type.aircraft-type'
+    >;
+    checkinOpensHoursBefore: Schema.Attribute.Integer &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<24>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    departureTime: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    destination: Schema.Attribute.String & Schema.Attribute.Required;
+    flightNumber: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::flight.flight'
+    > &
+      Schema.Attribute.Private;
+    origin: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSeatTierSeatTier extends Struct.CollectionTypeSchema {
+  collectionName: 'seat_tiers';
+  info: {
+    displayName: 'Seat Tier';
+    pluralName: 'seat-tiers';
+    singularName: 'seat-tier';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    aircraftType: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::aircraft-type.aircraft-type'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    eliteFree: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::seat-tier.seat-tier'
+    > &
+      Schema.Attribute.Private;
+    minAge: Schema.Attribute.Integer;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    price: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -954,6 +1098,10 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::aircraft-type.aircraft-type': ApiAircraftTypeAircraftType;
+      'api::checkin-step.checkin-step': ApiCheckinStepCheckinStep;
+      'api::flight.flight': ApiFlightFlight;
+      'api::seat-tier.seat-tier': ApiSeatTierSeatTier;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
