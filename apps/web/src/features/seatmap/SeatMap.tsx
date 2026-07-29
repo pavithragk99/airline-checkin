@@ -66,7 +66,6 @@ export function SeatMap({ aircraftTypeId, onSeatConfirmed }: SeatMapProps) {
     strapiClient
       .getAircraftType(aircraftTypeId)
       .then((data) => {
-        console.log("Raw aircraft data:", data); // TEMP — remove after debugging
         setAircraft(data as AircraftTypeData);
       })
       .catch((err) => console.error("Failed to load aircraft type:", err))
