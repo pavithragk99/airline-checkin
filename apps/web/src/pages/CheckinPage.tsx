@@ -1,0 +1,62 @@
+/**
+ * CheckinPage.tsx
+ *
+ * Page-level wrapper for the check-in flow. Fetches which flight the
+ * passenger is checking into, then renders CheckinFlow. On completion,
+ * navigates to seat selection for that same flight.
+ */
+
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { strapiClient } from "../api/strapiClient";
+import { useBooking } from "../context/BookingContext";
+import { CheckinFlow } from "../features/checkin/CheckinFlow";
+
+// Shape of a Flight entry as returned from Strapi, just the fields this page needs
+interface FlightData {
+  documentId: string;
+  destination: string;
+  aircraftType: {
+    documentId: string;
+  };
+}
+
+export function CheckinPage() {
+  const navigate = useNavigate();
+  const { dispatch } = useBooking();
+  const [flight, setFlight] = useState<FlightData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // For now, hardcode which flight this demo checks into. In a real app this
+  // would come from a booking lookup (confirmation code, etc.) — out of scope here.
+  const DEMO_FLIGHT_ID = "vjc8b5tpyysk3x0yewe8pqeh";
+
+  useEffect(() => {
+    strapiClient
+      .getFlight(DEMO_FLIGHT_ID)
+      .then((data) => setFlight(data as FlightData))
+      .catch((err) => console.error("Failed to load flight:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p>Loading flight...</p>;
+  if (!flight) return <p>Could not load flight.</p>;
+
+  // Destination country is a simplification — we're using the city/airport
+  // string as a stand-in since Flight doesn't have a separate country field
+  const destinationCountry = flight.destination.includes("Montreal")
+    ? "Canada"
+    : "Brazil";
+
+  return (
+    <CheckinFlow
+      destinationCountry={destinationCountry}
+      onCheckinComplete={() => {
+        // Save which flight and aircraft we're proceeding with, so the seat
+        // selection page knows what to fetch next
+        dispatch({ type: "SET_FLIGHT", flightId: flight.documentId });
+        navigate(`/seat-selection/${flight.aircraftType.documentId}`);
+      }}
+    />
+  );
+}
