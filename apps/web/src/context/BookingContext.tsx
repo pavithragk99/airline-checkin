@@ -27,7 +27,9 @@ interface BookingState {
   passenger: Passenger | null;
   completedSteps: CompletedSteps;
   selectedFlightId: string | null;
-  selectedSeat: string | null; // e.g. "3A"
+  selectedSeat: string | null;
+  bookedFareClass: "Economy" | "Premium" | null; // NEW
+  hasPaidUpgrade: boolean; // NEW — set true if passenger accepts the upgrade offer
 }
 
 // All the ways booking state can change. Using a discriminated union so
@@ -37,6 +39,13 @@ type BookingAction =
   | { type: "COMPLETE_STEP"; stepKey: string }
   | { type: "SET_FLIGHT"; flightId: string }
   | { type: "SELECT_SEAT"; seat: string }
+  | {
+      type: "SET_BOOKING";
+      passenger: Passenger;
+      flightId: string;
+      bookedFareClass: "Economy" | "Premium";
+    } // NEW
+  | { type: "ACCEPT_UPGRADE" } // NEW
   | { type: "RESET" };
 
 const initialState: BookingState = {
@@ -44,6 +53,8 @@ const initialState: BookingState = {
   completedSteps: {},
   selectedFlightId: null,
   selectedSeat: null,
+  bookedFareClass: null,
+  hasPaidUpgrade: false,
 };
 
 // Pure reducer function — given current state and an action, returns new state.
@@ -67,6 +78,17 @@ function bookingReducer(
 
     case "SELECT_SEAT":
       return { ...state, selectedSeat: action.seat };
+
+    case "SET_BOOKING":
+      return {
+        ...state,
+        passenger: action.passenger,
+        selectedFlightId: action.flightId,
+        bookedFareClass: action.bookedFareClass,
+      };
+
+    case "ACCEPT_UPGRADE":
+      return { ...state, hasPaidUpgrade: true };
 
     case "RESET":
       return initialState;

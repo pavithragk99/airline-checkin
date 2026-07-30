@@ -475,6 +475,44 @@ export interface ApiAircraftTypeAircraftType
   };
 }
 
+export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
+  collectionName: 'bookings';
+  info: {
+    displayName: 'Booking';
+    pluralName: 'bookings';
+    singularName: 'booking';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bookedFareClass: Schema.Attribute.Enumeration<['Economy', 'Premium']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'Economy'>;
+    bookingReference: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    flight: Schema.Attribute.Relation<'manyToOne', 'api::flight.flight'>;
+    isElite: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    lastName: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking.booking'
+    > &
+      Schema.Attribute.Private;
+    passengerAge: Schema.Attribute.Integer & Schema.Attribute.Required;
+    passengerName: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCheckinStepCheckinStep extends Struct.CollectionTypeSchema {
   collectionName: 'checkin_steps';
   info: {
@@ -527,6 +565,7 @@ export interface ApiFlightFlight extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::aircraft-type.aircraft-type'
     >;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
     checkinOpensHoursBefore: Schema.Attribute.Integer &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<24>;
@@ -1099,6 +1138,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::aircraft-type.aircraft-type': ApiAircraftTypeAircraftType;
+      'api::booking.booking': ApiBookingBooking;
       'api::checkin-step.checkin-step': ApiCheckinStepCheckinStep;
       'api::flight.flight': ApiFlightFlight;
       'api::seat-tier.seat-tier': ApiSeatTierSeatTier;
