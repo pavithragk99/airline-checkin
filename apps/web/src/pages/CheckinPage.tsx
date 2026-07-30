@@ -30,7 +30,7 @@ export function CheckinPage() {
 
   // For now, hardcode which flight this demo checks into. In a real app this
   // would come from a booking lookup (confirmation code, etc.) — out of scope here.
-  const DEMO_FLIGHT_ID = "vjc8b5tpyysk3x0yewe8pqeh";
+  const DEMO_FLIGHT_ID = import.meta.env.VITE_DEMO_FLIGHT_ID;
 
   useEffect(() => {
     strapiClient
