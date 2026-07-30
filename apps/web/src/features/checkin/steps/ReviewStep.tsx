@@ -2,14 +2,14 @@
  * ReviewStep.tsx
  *
  * Final check-in step. Shows a summary before handing off to seat selection.
- * Doesn't fetch anything itself — just displays whatever booking state is
- * passed in, so it stays simple and easy to test.
  */
+
+import styles from "./steps.module.css";
 
 interface ReviewStepProps {
   passengerName: string;
   checkedBags: number;
-  onComplete: () => void; // moves on to seat selection
+  onComplete: () => void;
 }
 
 export function ReviewStep({
@@ -19,10 +19,22 @@ export function ReviewStep({
 }: ReviewStepProps) {
   return (
     <div>
-      <h2>Review & Confirm</h2>
-      <p>Passenger: {passengerName}</p>
-      <p>Bags checked: {checkedBags}</p>
-      <button onClick={onComplete}>Complete Check-In</button>
+      <h2 className={styles.heading}>Review & Confirm</h2>
+      <div className={styles.summaryRow}>
+        <span>Passenger</span>
+        <span className={styles.summaryValue}>{passengerName}</span>
+      </div>
+      <div className={styles.summaryRow}>
+        <span>Bags checked</span>
+        <span className={styles.summaryValue}>{checkedBags}</span>
+      </div>
+      <button
+        className={styles.button}
+        onClick={onComplete}
+        style={{ marginTop: "var(--space-md)" }}
+      >
+        Complete Check-In
+      </button>
     </div>
   );
 }

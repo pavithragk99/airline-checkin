@@ -8,7 +8,8 @@
  * that need this shared state.
  */
 
-import { createContext, useContext, useReducer, ReactNode } from "react";
+import { createContext, useContext, useReducer } from "react";
+import type { ReactNode } from "react";
 
 // Passenger info collected during check-in
 interface Passenger {

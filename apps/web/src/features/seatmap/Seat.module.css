@@ -1,0 +1,67 @@
+.seat {
+  width: 2.75rem;
+  height: 3.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: 10px 10px 3px 3px; /* rounded top like a seat back, flat base */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.seat:hover:not(.disabled) {
+  transform: translateY(-2px);
+}
+
+.letter {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.price {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  opacity: 0.8;
+}
+
+/* Tier colors — each a muted tone that still reads clearly on the dark background */
+.economy {
+  background-color: #33403d;
+  border-color: #445450;
+  color: var(--color-ink);
+}
+
+.exitRow {
+  background-color: #4a3f28;
+  border-color: #6b5a35;
+  color: var(--color-ink);
+}
+
+.premium {
+  background-color: #2e3a4d;
+  border-color: #435771;
+  color: var(--color-ink);
+}
+
+.selected {
+  border: 2px solid var(--color-amber);
+  box-shadow: 0 0 12px rgba(232, 163, 61, 0.5);
+}
+
+.disabled {
+  background-color: var(--color-line);
+  border-color: var(--color-line);
+  color: var(--color-ink-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.disabled:hover {
+  transform: none;
+}

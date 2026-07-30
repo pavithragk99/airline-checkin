@@ -1,0 +1,30 @@
+.seal {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto var(--space-md);
+  border-radius: 50%;
+  background-color: var(--color-sage);
+  color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.seatLine {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: var(--space-xs);
+}
+
+.seatValue {
+  font-family: var(--font-mono);
+  color: var(--color-amber);
+  font-weight: 600;
+}
+
+.message {
+  text-align: center;
+  color: var(--color-ink-muted);
+}

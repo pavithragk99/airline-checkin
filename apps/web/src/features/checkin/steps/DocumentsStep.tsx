@@ -1,18 +1,17 @@
 /**
  * DocumentsStep.tsx
  *
- * First check-in step. Shows the passenger the document/visa requirements
- * for their destination, pulled from Strapi's CheckinStep content type.
- * The actual wording differs by destination (e.g. domestic vs international)
- * so this component just renders whatever content it's given — it doesn't
- * decide the wording itself.
+ * First check-in step. Shows document/visa requirements for the
+ * passenger's destination, pulled from Strapi.
  */
+
+import styles from "./steps.module.css";
 
 interface DocumentsStepProps {
   title: string;
   body: string;
   requiresVisa: boolean;
-  onConfirm: () => void; // called when passenger confirms they meet the requirement
+  onConfirm: () => void;
 }
 
 export function DocumentsStep({
@@ -23,15 +22,16 @@ export function DocumentsStep({
 }: DocumentsStepProps) {
   return (
     <div>
-      <h2>{title}</h2>
-      <p>{body}</p>
-      {/* Only show a visa-specific checkbox if this destination actually requires one */}
+      <h2 className={styles.heading}>{title}</h2>
+      <p className={styles.body}>{body}</p>
       {requiresVisa && (
-        <label style={{ display: "block", margin: "1rem 0" }}>
+        <label className={styles.checkboxRow}>
           <input type="checkbox" required /> I confirm my visa has been approved
         </label>
       )}
-      <button onClick={onConfirm}>Continue</button>
+      <button className={styles.button} onClick={onConfirm}>
+        Continue
+      </button>
     </div>
   );
 }

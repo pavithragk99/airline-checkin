@@ -14,6 +14,8 @@ import { ProgressIndicator } from "./ProgressIndicator";
 import { DocumentsStep } from "./steps/DocumentsStep";
 import { BaggageStep } from "./steps/BaggageStep";
 import { ReviewStep } from "./steps/ReviewStep";
+import { TicketCard } from "../../components/TicketCard";
+import { StatusMessage } from "../../components/StatusMessage";
 
 // Shape of a CheckinStep entry as returned from Strapi
 interface CheckinStepContent {
@@ -55,7 +57,9 @@ export function CheckinFlow({
   }, []);
 
   if (loading) {
-    return <p>Loading check-in steps...</p>;
+    return (
+      <StatusMessage variant="loading">Loading check-in steps...</StatusMessage>
+    );
   }
 
   // Pick the right documents content for this destination (domestic vs
@@ -72,7 +76,7 @@ export function CheckinFlow({
   const currentStepIndex = STEP_ORDER.indexOf(currentStep) + 1; // 1-indexed for display
 
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto", padding: "1rem" }}>
+    <TicketCard eyebrow="Online Check-In" title="Check In for Your Flight">
       <ProgressIndicator
         currentStep={currentStepIndex}
         totalSteps={STEP_ORDER.length}
@@ -115,6 +119,6 @@ export function CheckinFlow({
           onComplete={onCheckinComplete}
         />
       )}
-    </div>
+    </TicketCard>
   );
 }

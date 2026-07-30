@@ -1,0 +1,138 @@
+.wrapper {
+  max-width: 420px;
+  margin: var(--space-lg) auto;
+  padding: 0 var(--space-md);
+}
+
+.headingBlock {
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.eyebrow {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--color-amber);
+  text-transform: uppercase;
+  margin-bottom: var(--space-xs);
+}
+
+.heading {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+/* The fuselage container — narrower at the nose/tail, wider through the
+   body, achieved with a radial-ish border shape via border-radius */
+.fuselage {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 60px 60px 24px 24px;
+  padding: var(--space-lg) var(--space-md);
+  position: relative;
+}
+
+.nose {
+  text-align: center;
+  margin: calc(-1 * var(--space-lg)) calc(-1 * var(--space-md)) var(--space-lg);
+  padding: var(--space-md) var(--space-md) var(--space-lg);
+  /* Curved nose cone shape — wide ellipse at top, tapering down to meet
+     the straight fuselage walls below */
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: linear-gradient(to bottom, rgba(232, 163, 61, 0.1), transparent);
+}
+
+.noseLabel {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-sm);
+}
+
+.rowWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xs);
+  position: relative;
+}
+
+.rowNumber {
+  width: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-ink-muted);
+  text-align: center;
+}
+
+.seatGroup {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+/* The aisle — a real visual gap between the two seat groups, not just
+   spacing, so it actually reads as a walkway down the middle */
+.aisle {
+  width: var(--space-lg);
+}
+
+/* Wing markers — small triangular shapes that appear only next to the
+   exit row, since that's structurally accurate to where wings sit */
+.wingLeft,
+.wingRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.wingLeft {
+  left: -24px;
+  border-right: 20px solid var(--color-line);
+}
+
+.wingRight {
+  right: -24px;
+  border-left: 20px solid var(--color-line);
+}
+
+.tail {
+  height: 24px;
+}
+
+.confirmButton {
+  width: 100%;
+  margin-top: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-control);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.confirmButton:disabled {
+  background-color: var(--color-line);
+  color: var(--color-ink-muted);
+  cursor: not-allowed;
+}
+
+/* On small phones, tighten spacing so 6-across rows still fit comfortably */
+@media (max-width: 380px) {
+  .seatGroup {
+    gap: 4px;
+  }
+  .aisle {
+    width: var(--space-md);
+  }
+}

@@ -1,0 +1,26 @@
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-ink-muted);
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* Swatch now echoes the seat's own rounded-top shape, not a plain square,
+   so the legend visually matches the seats it's explaining */
+.swatch {
+  display: inline-block;
+  width: 0.9rem;
+  height: 1.1rem;
+  border-radius: 4px 4px 1px 1px;
+  border: 1px solid var(--color-line);
+}
