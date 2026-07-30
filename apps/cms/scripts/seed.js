@@ -33,18 +33,21 @@ const headers = {
 // it if missing, or update it if found. Keeps the script safe to re-run.
 async function findOrCreate(collection, filterField, filterValue, data) {
   const searchUrl = `${STRAPI_URL}/api/${collection}?filters[${filterField}][$eq]=${encodeURIComponent(
-    filterValue
+    filterValue,
   )}`;
   const searchRes = await fetch(searchUrl, { headers });
   const searchJson = await searchRes.json();
 
   if (searchJson.data && searchJson.data.length > 0) {
     const existing = searchJson.data[0];
-    const updateRes = await fetch(`${STRAPI_URL}/api/${collection}/${existing.documentId}`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify({ data }),
-    });
+    const updateRes = await fetch(
+      `${STRAPI_URL}/api/${collection}/${existing.documentId}`,
+      {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ data }),
+      },
+    );
     const updated = await updateRes.json();
     console.log(`Updated ${collection}: ${filterValue}`);
     return updated.data;
@@ -66,18 +69,21 @@ async function findOrCreate(collection, filterField, filterValue, data) {
 
 async function findOrCreateSeatTier(name, aircraftDocumentId, data) {
   const searchUrl = `${STRAPI_URL}/api/seat-tiers?filters[name][$eq]=${encodeURIComponent(
-    name
+    name,
   )}&filters[aircraftType][documentId][$eq]=${aircraftDocumentId}`;
   const searchRes = await fetch(searchUrl, { headers });
   const searchJson = await searchRes.json();
 
   if (searchJson.data && searchJson.data.length > 0) {
     const existing = searchJson.data[0];
-    const updateRes = await fetch(`${STRAPI_URL}/api/seat-tiers/${existing.documentId}`, {
-      method: "PUT",
-      headers,
-      body: JSON.stringify({ data }),
-    });
+    const updateRes = await fetch(
+      `${STRAPI_URL}/api/seat-tiers/${existing.documentId}`,
+      {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ data }),
+      },
+    );
     const updated = await updateRes.json();
     console.log(`Updated seat-tier: ${name} (${aircraftDocumentId})`);
     return updated.data;
@@ -105,7 +111,12 @@ function buildSeatMap(rows) {
       rowNumber: row,
       seats: ["A", "B", "C", "D", "E", "F"].map((letter) => ({
         letter,
-        type: letter === "A" || letter === "F" ? "window" : letter === "C" || letter === "D" ? "aisle" : "middle",
+        type:
+          letter === "A" || letter === "F"
+            ? "window"
+            : letter === "C" || letter === "D"
+              ? "aisle"
+              : "middle",
         tier,
         exitRow: row === 3,
       })),
@@ -132,48 +143,48 @@ async function seed() {
 
   // 2. Seat Tiers — linked via the aircraft's documentId
   await findOrCreateSeatTier("Economy", a320.documentId, {
-  name: "Economy",
-  price: 0,
-  minAge: null,
-  eliteFree: false,
-  aircraftType: a320.documentId,
-});
-await findOrCreateSeatTier("Exit Row", a320.documentId, {
-  name: "Exit Row",
-  price: 45,
-  minAge: 15,
-  eliteFree: false,
-  aircraftType: a320.documentId,
-});
-await findOrCreateSeatTier("Premium", a320.documentId, {
-  name: "Premium",
-  price: 75,
-  minAge: null,
-  eliteFree: true,
-  aircraftType: a320.documentId,
-});
+    name: "Economy",
+    price: 0,
+    minAge: null,
+    eliteFree: false,
+    aircraftType: a320.documentId,
+  });
+  await findOrCreateSeatTier("Exit Row", a320.documentId, {
+    name: "Exit Row",
+    price: 45,
+    minAge: 15,
+    eliteFree: false,
+    aircraftType: a320.documentId,
+  });
+  await findOrCreateSeatTier("Premium", a320.documentId, {
+    name: "Premium",
+    price: 75,
+    minAge: null,
+    eliteFree: true,
+    aircraftType: a320.documentId,
+  });
 
-await findOrCreateSeatTier("Economy", a321.documentId, {
-  name: "Economy",
-  price: 0,
-  minAge: null,
-  eliteFree: false,
-  aircraftType: a321.documentId,
-});
-await findOrCreateSeatTier("Exit Row", a321.documentId, {
-  name: "Exit Row",
-  price: 55,
-  minAge: 15,
-  eliteFree: false,
-  aircraftType: a321.documentId,
-});
-await findOrCreateSeatTier("Premium", a321.documentId, {
-  name: "Premium",
-  price: 85,
-  minAge: null,
-  eliteFree: true,
-  aircraftType: a321.documentId,
-});
+  await findOrCreateSeatTier("Economy", a321.documentId, {
+    name: "Economy",
+    price: 0,
+    minAge: null,
+    eliteFree: false,
+    aircraftType: a321.documentId,
+  });
+  await findOrCreateSeatTier("Exit Row", a321.documentId, {
+    name: "Exit Row",
+    price: 55,
+    minAge: 15,
+    eliteFree: false,
+    aircraftType: a321.documentId,
+  });
+  await findOrCreateSeatTier("Premium", a321.documentId, {
+    name: "Premium",
+    price: 85,
+    minAge: null,
+    eliteFree: true,
+    aircraftType: a321.documentId,
+  });
 
   // 3. Checkin Steps
   await findOrCreate("checkin-steps", "stepKey", "documents-domestic", {
@@ -230,6 +241,48 @@ await findOrCreateSeatTier("Premium", a321.documentId, {
     departureTime: new Date(now + 48 * HOUR).toISOString(),
     checkinOpensHoursBefore: 24,
     aircraftType: a321.documentId,
+  });
+
+  // 5. Bookings — demo passengers linked to the flights above. Different
+  // fare classes and ages let us test seat tier locking and exit row
+  // age restrictions without needing to manually create test data.
+  const pa1425 = await findOrCreate("flights", "flightNumber", "PA 1425", {
+    flightNumber: "PA 1425",
+    origin: "Toronto (YYZ)",
+    destination: "Montreal (YUL)",
+    departureTime: new Date(now + 20 * HOUR).toISOString(),
+    checkinOpensHoursBefore: 24,
+    aircraftType: a320.documentId,
+  });
+
+  await findOrCreate("bookings", "bookingReference", "X7K2P9", {
+    bookingReference: "X7K2P9",
+    lastName: "Gopalakrishnan",
+    passengerName: "Pavithra Gopalakrishnan",
+    passengerAge: 29,
+    isElite: false,
+    bookedFareClass: "Economy",
+    flight: pa1425.documentId,
+  });
+
+  await findOrCreate("bookings", "bookingReference", "M4T8QW", {
+    bookingReference: "M4T8QW",
+    lastName: "Chen",
+    passengerName: "Daniel Chen",
+    passengerAge: 34,
+    isElite: true,
+    bookedFareClass: "Premium",
+    flight: pa1425.documentId,
+  });
+
+  await findOrCreate("bookings", "bookingReference", "R2N5LX", {
+    bookingReference: "R2N5LX",
+    lastName: "Osei",
+    passengerName: "Ama Osei",
+    passengerAge: 12,
+    isElite: false,
+    bookedFareClass: "Economy",
+    flight: pa1425.documentId,
   });
 
   console.log("\nSeeding complete.");

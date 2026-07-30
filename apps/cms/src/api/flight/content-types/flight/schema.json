@@ -9,6 +9,7 @@
   "options": {
     "draftAndPublish": false
   },
+  "pluginOptions": {},
   "attributes": {
     "flightNumber": {
       "type": "string",
@@ -35,6 +36,12 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::aircraft-type.aircraft-type"
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
+      "mappedBy": "flight"
     }
   }
 }

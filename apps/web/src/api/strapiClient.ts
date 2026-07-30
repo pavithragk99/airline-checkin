@@ -60,4 +60,13 @@ export const strapiClient = {
 
   getFlight: (id: string) =>
     request<unknown>(`/flights/${id}?populate=aircraftType`),
+
+  // Looks up a booking by reference + last name (case-insensitive on last name,
+  // exact match on reference). Returns the first match or undefined if none.
+  getBookingByReference: (reference: string, lastName: string) =>
+    request<unknown[]>(
+      `/bookings?filters[bookingReference][$eq]=${encodeURIComponent(
+        reference,
+      )}&filters[lastName][$eqi]=${encodeURIComponent(lastName)}&populate=flight`,
+    ),
 };

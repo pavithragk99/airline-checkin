@@ -19,23 +19,44 @@
  * confirmation screen.
  */
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LandingPage } from "./pages/LandingPage";
+import { BookingLookupPage } from "./pages/BookingLookupPage";
 import { CheckinPage } from "./pages/CheckinPage";
 import { SeatSelectionPage } from "./pages/SeatSelectionPage";
 import { ConfirmationPage } from "./pages/ConfirmationPage";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Redirect the root path straight into check-in for this demo */}
-        <Route path="/" element={<Navigate to="/checkin" replace />} />
-        <Route path="/checkin" element={<CheckinPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/lookup" element={<BookingLookupPage />} />
+        <Route
+          path="/checkin"
+          element={
+            <ProtectedRoute>
+              <CheckinPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/seat-selection/:aircraftTypeId"
-          element={<SeatSelectionPage />}
+          element={
+            <ProtectedRoute>
+              <SeatSelectionPage />
+            </ProtectedRoute>
+          }
         />
-        <Route path="/confirmation" element={<ConfirmationPage />} />
+        <Route
+          path="/confirmation"
+          element={
+            <ProtectedRoute>
+              <ConfirmationPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
