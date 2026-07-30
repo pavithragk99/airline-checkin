@@ -119,6 +119,26 @@ export function BookingLookupPage() {
           {submitting ? "Searching..." : "Find My Booking"}
         </button>
       </form>
+
+      {/* Demo hint — this is a portfolio project, so give visitors a real
+          reference to try instead of leaving them stuck with no way in */}
+      <div className={styles.demoHint}>
+        <p className={styles.demoLabel}>Demo Booking</p>
+        <p className={styles.demoText}>
+          Reference: <span className={styles.demoValue}>X7K2P9</span> · Last
+          Name: <span className={styles.demoValue}>Gopalakrishnan</span>
+        </p>
+        <button
+          type="button"
+          className={styles.demoFillButton}
+          onClick={() => {
+            setReference("X7K2P9");
+            setLastName("Gopalakrishnan");
+          }}
+        >
+          Fill Demo Booking
+        </button>
+      </div>
     </TicketCard>
   );
 }
