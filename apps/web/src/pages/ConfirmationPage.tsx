@@ -1,22 +1,24 @@
 /**
  * ConfirmationPage.tsx
  *
- * Shown after a seat is confirmed. Reads the final booking state from
- * context to show a summary.
+ * Final screen after a seat is confirmed. Styled as the "stamped" ticket —
+ * the boarding pass's last stage, with a confirmation seal.
  */
 
 import { useBooking } from "../context/BookingContext";
+import { TicketCard } from "../components/TicketCard";
+import styles from "./ConfirmationPage.module.css";
 
 export function ConfirmationPage() {
   const { state } = useBooking();
 
   return (
-    <div
-      style={{ maxWidth: "400px", margin: "2rem auto", textAlign: "center" }}
-    >
-      <h2>You're All Set!</h2>
-      <p>Seat {state.selectedSeat} is confirmed.</p>
-      <p>Have a great flight.</p>
-    </div>
+    <TicketCard eyebrow="Confirmed" title="You're All Set">
+      <div className={styles.seal}>✓</div>
+      <p className={styles.seatLine}>
+        Seat <span className={styles.seatValue}>{state.selectedSeat}</span>
+      </p>
+      <p className={styles.message}>Have a great flight.</p>
+    </TicketCard>
   );
 }

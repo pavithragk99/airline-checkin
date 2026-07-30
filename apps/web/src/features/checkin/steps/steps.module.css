@@ -1,0 +1,66 @@
+.heading {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-sm);
+}
+
+.body {
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-md);
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  font-size: 0.9rem;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  font-size: 0.9rem;
+}
+
+.numberInput {
+  font-family: var(--font-mono);
+  width: 4rem;
+  padding: var(--space-xs);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-control);
+  color: var(--color-ink);
+}
+
+.button {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-amber);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-control);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-xs) 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.9rem;
+}
+
+.summaryValue {
+  font-family: var(--font-mono);
+  color: var(--color-tarmac);
+}

@@ -1,41 +1,25 @@
 /**
  * SeatLegend.tsx
  *
- * Explains what each seat color means. Static — doesn't need any props
- * since the tier colors are fixed.
+ * Explains what each seat color means, using the same tier classes as
+ * the actual seats so the legend always matches reality.
  */
 
+import styles from "./SeatLegend.module.css";
+import seatStyles from "./Seat.module.css";
+
 const LEGEND_ITEMS = [
-  { label: "Economy", color: "#e5e7eb" },
-  { label: "Exit Row", color: "#fde68a" },
-  { label: "Premium", color: "#bfdbfe" },
+  { label: "Economy", className: seatStyles.economy },
+  { label: "Exit Row", className: seatStyles.exitRow },
+  { label: "Premium", className: seatStyles.premium },
 ];
 
 export function SeatLegend() {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "1rem",
-        marginBottom: "1rem",
-        fontSize: "0.85rem",
-      }}
-    >
+    <div className={styles.legend}>
       {LEGEND_ITEMS.map((item) => (
-        <div
-          key={item.label}
-          style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}
-        >
-          <span
-            style={{
-              display: "inline-block",
-              width: "1rem",
-              height: "1rem",
-              borderRadius: "3px",
-              backgroundColor: item.color,
-              border: "1px solid #9ca3af",
-            }}
-          />
+        <div key={item.label} className={styles.item}>
+          <span className={`${styles.swatch} ${item.className}`} />
           {item.label}
         </div>
       ))}

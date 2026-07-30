@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { strapiClient } from "../api/strapiClient";
 import { useBooking } from "../context/BookingContext";
 import { CheckinFlow } from "../features/checkin/CheckinFlow";
+import { StatusMessage } from "../components/StatusMessage";
 
 // Shape of a Flight entry as returned from Strapi, just the fields this page needs
 interface FlightData {
@@ -39,8 +40,14 @@ export function CheckinPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading flight...</p>;
-  if (!flight) return <p>Could not load flight.</p>;
+  if (loading)
+    return <StatusMessage variant="loading">Loading flight...</StatusMessage>;
+  if (!flight)
+    return (
+      <StatusMessage variant="error">
+        Could not load flight. Please try again.
+      </StatusMessage>
+    );
 
   // Destination country is a simplification — we're using the city/airport
   // string as a stand-in since Flight doesn't have a separate country field

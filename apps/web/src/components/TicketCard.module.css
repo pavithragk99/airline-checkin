@@ -1,0 +1,71 @@
+/**
+ * TicketCard.module.css
+ *
+ * Styles for the boarding-pass-style card shell. Mobile-first: base
+ * styles target small screens, then min-width media queries add
+ * refinements for larger viewports.
+ */
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  max-width: 480px;
+  margin: var(--space-lg) auto;
+  overflow: hidden;
+}
+
+.stub {
+  padding: var(--space-md);
+  background-color: rgba(
+    232,
+    163,
+    61,
+    0.06
+  ); /* faint amber wash, like gate lighting */
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: var(--color-amber);
+  text-transform: uppercase;
+}
+
+.title {
+  margin-top: var(--space-xs);
+  font-size: 1.5rem;
+  color: var(--color-ink);
+}
+
+/* The perforated tear line — a repeating radial-gradient makes evenly
+   spaced dots without needing a background image */
+.tearLine {
+  height: 1px;
+  background-image: radial-gradient(
+    circle,
+    var(--color-bg) 2px,
+    transparent 2.5px
+  );
+  background-size: 14px 1px;
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+.content {
+  padding: var(--space-md);
+}
+
+/* On larger screens, give the card a bit more breathing room */
+@media (min-width: 640px) {
+  .stub,
+  .content {
+    padding: var(--space-lg);
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+}
