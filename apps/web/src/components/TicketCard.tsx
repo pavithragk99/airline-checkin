@@ -8,7 +8,7 @@
  */
 
 import styles from "./TicketCard.module.css";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface TicketCardProps {
   eyebrow: string; // small label above the title, e.g. "BOARDING PASS"
